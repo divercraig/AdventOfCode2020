@@ -29,9 +29,11 @@ tasks.withType<KotlinCompile>().configureEach {
 task("runPuzzle1_1", JavaExec::class) {
     main = "day1.Puzzle1"
     classpath = sourceSets["main"].runtimeClasspath
+    group = "execute"
 }
 
 task("runPuzzle1_2", JavaExec::class) {
     main = "day1.Puzzle2"
     classpath = sourceSets["main"].runtimeClasspath
+    group = "execute"
 }
