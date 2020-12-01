@@ -30,3 +30,8 @@ task("runPuzzle1_1", JavaExec::class) {
     main = "day1.Puzzle1"
     classpath = sourceSets["main"].runtimeClasspath
 }
+
+task("runPuzzle1_2", JavaExec::class) {
+    main = "day1.Puzzle2"
+    classpath = sourceSets["main"].runtimeClasspath
+}
