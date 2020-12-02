@@ -22,4 +22,8 @@ class PasswordCheck(input: String) {
         val matchingChars = password.filter { it == ruleChar }
         return ruleCharRange.contains(matchingChars.length)
     }
+
+    fun passwordPositionsAreValid(): Boolean {
+        return (password[ruleCharRange.first-1] == ruleChar).xor(password[ruleCharRange.last-1] == ruleChar)
+    }
 }
