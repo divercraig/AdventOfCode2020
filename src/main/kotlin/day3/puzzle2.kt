@@ -2,8 +2,6 @@
 
 package day3
 
-import java.math.BigInteger
-
 fun main() {
     val treeMap = TreeMap("src/main/resources/day3/puzzle1/input.txt")
 
