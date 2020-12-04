@@ -1,8 +1,6 @@
 package day3
 
-import com.sun.org.apache.xpath.internal.operations.Bool
 import java.io.File
-import kotlin.reflect.typeOf
 
 class TreeMap(fileName: String) {
 
