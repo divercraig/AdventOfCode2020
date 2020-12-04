@@ -32,3 +32,6 @@ out/
 
 #IntelliJ
 .idea/
+
+#Mac
+.DS_Store
