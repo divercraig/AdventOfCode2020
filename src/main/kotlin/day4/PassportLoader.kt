@@ -21,6 +21,14 @@ class PassportLoader(filename: String) {
         passports.add(Passport(currentPassport))
     }
 
+    fun countPassportsWithRequiredFields(): Int {
+        var validPassports = 0
+        for(passport in passports) {
+            if (passport.hasRequiredFields()) validPassports++
+        }
+        return validPassports
+    }
+
     fun countValidPassports(): Int {
         var validPassports = 0
         for(passport in passports) {
