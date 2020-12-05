@@ -31,4 +31,14 @@ class SeatTest {
     internal fun testSeatConstructor4() {
         testSeat("BBFFBBFRLL", 102, 4, 820)
     }
+
+    @Test
+    internal fun testSeatConstructor5() {
+        testSeat("FFFFBBBLLL", 7, 0, 56)
+    }
+
+    @Test
+    internal fun testSeatConstructor6() {
+        testSeat("FFFFBBFLLL", 6, 0, 48 )
+    }
 }

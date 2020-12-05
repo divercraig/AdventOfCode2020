@@ -16,7 +16,7 @@ class Seat(input: String) {
 
     init {
         assert(input.length == 10)
-        rowIdentifier = input.substring(0,6)
+        rowIdentifier = input.substring(0,7)
         columnIdentifier = input.substring(7, 10)
 
         var currentRowRange = allRows
