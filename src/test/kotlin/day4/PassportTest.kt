@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test
 class PassportTest {
 
     private fun testValidBirthYear(passport: String) {
-        val passport = Passport(passport)
-        assertTrue(passport.hasValidBirthYear(), "${passport} should contain a valid birth year")
+        val testPassport = Passport(passport)
+        assertTrue(testPassport.hasValidBirthYear(), "${testPassport} should contain a valid birth year")
     }
 
     private fun testInvalidBirthYear(passport: String) {
-        val passport = Passport(passport)
-        assertFalse(passport.hasValidBirthYear(), "${passport} should contain an invalid birth year")
+        val testPassport = Passport(passport)
+        assertFalse(testPassport.hasValidBirthYear(), "${testPassport} should contain an invalid birth year")
     }
 
     @Test
@@ -47,13 +47,13 @@ class PassportTest {
     }
 
     private fun testValidIssueYear(passport: String) {
-        val passport = Passport(passport)
-        assertTrue(passport.hasValidIssueYear(), "${passport} should contain a valid issue year")
+        val testPassport = Passport(passport)
+        assertTrue(testPassport.hasValidIssueYear(), "${testPassport} should contain a valid issue year")
     }
 
     private fun testInvalidIssueYear(passport: String) {
-        val passport = Passport(passport)
-        assertFalse(passport.hasValidIssueYear(), "${passport} should contain an invalid issue year")
+        val testPassport = Passport(passport)
+        assertFalse(testPassport.hasValidIssueYear(), "${testPassport} should contain an invalid issue year")
     }
 
     @Test
@@ -87,13 +87,13 @@ class PassportTest {
     }
 
     private fun testValidExpiryYear(passport: String) {
-        val passport = Passport(passport)
-        assertTrue(passport.hasValidExpirationYear(), "${passport} should contain a valid expiration year")
+        val testPassport = Passport(passport)
+        assertTrue(testPassport.hasValidExpirationYear(), "${testPassport} should contain a valid expiration year")
     }
 
     private fun testInvalidExpiryYear(passport: String) {
-        val passport = Passport(passport)
-        assertFalse(passport.hasValidExpirationYear(), "${passport} should contain an invalid expiration year")
+        val testPassport = Passport(passport)
+        assertFalse(testPassport.hasValidExpirationYear(), "${testPassport} should contain an invalid expiration year")
     }
 
     @Test
