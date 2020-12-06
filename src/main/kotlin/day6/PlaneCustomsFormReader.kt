@@ -7,6 +7,8 @@ class PlaneCustomsFormReader(fileName: String) {
     private val customForms = mutableListOf<CustomsForm>()
     val sumOfYesAnswers: Int
         get() = customForms.fold(0, {sum, form -> sum + form.numberOfDifferedYesAnswers})
+    val sumOfGroupCommonYesAnswers: Int
+        get() = customForms.fold(0, {sum, form -> sum + form.numberOfQuestionsEveryoneSaidYesTo})
 
     init {
         var currentGroup = ArrayList<String>()
