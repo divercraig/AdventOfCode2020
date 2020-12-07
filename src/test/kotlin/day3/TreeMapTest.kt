@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class TreeMapTest {
 
     internal fun testHowManyTreesOnPath(x:Int, y:Int, expected:Int) {
-        val map = TreeMap("src/test/resources/day3/puzzle1/test_input1.txt")
+        val map = TreeMap("src/test/resources/day3/test_input1.txt")
         var treesEncountered = map.howManyTreesOnPath(x,y)
         Assertions.assertEquals(expected, treesEncountered, "Number of tree's encountered on path R${x}, D${y} was not as expected")
     }

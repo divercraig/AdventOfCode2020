@@ -3,7 +3,7 @@
 package day1
 
 fun main() {
-    val expenseReport = ExpenseReport("src/main/resources/day1/puzzle1/input.txt")
+    val expenseReport = ExpenseReport("src/main/resources/day1/input.txt")
 
     try {
         println("Specific Product of Key Values is ${expenseReport.findProductOf3TargetValues()}")

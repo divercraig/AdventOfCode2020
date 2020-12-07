@@ -5,7 +5,7 @@ import java.io.File
 
 fun main() {
     var validPasswords = 0
-    File("src/main/resources/day2/puzzle1/input.txt").forEachLine {
+    File("src/main/resources/day2/input.txt").forEachLine {
         if (PasswordCheck(it).passwordIsValid()) {
             validPasswords++
         }

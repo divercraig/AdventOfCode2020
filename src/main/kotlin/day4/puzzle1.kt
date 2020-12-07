@@ -3,7 +3,7 @@
 package day4
 
 fun main() {
-    val loader = PassportLoader("src/main/resources/day4/puzzle1/input.txt")
+    val loader = PassportLoader("src/main/resources/day4/input.txt")
 
     try {
         println("There are ${loader.countPassportsWithRequiredFields()} valid passports")

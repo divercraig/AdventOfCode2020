@@ -3,7 +3,7 @@
 package day3
 
 fun main() {
-    val treeMap = TreeMap("src/main/resources/day3/puzzle1/input.txt")
+    val treeMap = TreeMap("src/main/resources/day3/input.txt")
 
     // We're using BigInteger because we're multiplying 5 large numbers together.
     // This will help avoid Integer Overflow
