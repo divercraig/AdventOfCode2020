@@ -1,6 +1,7 @@
 package day10
 
 import java.io.File
+import java.math.BigInteger
 
 class JoltAdapters(fileName: String) {
     val adapters = mutableListOf<Int>()
@@ -32,4 +33,29 @@ class JoltAdapters(fileName: String) {
         }
         return differencesOf1 * differencesOf3
     }
+
+    fun numberOfValidArrangements(index: Int = 0, memoizedResults: LongArray = LongArray(adapters.size)):Long {
+        if(memoizedResults[index] != 0L) {
+            return memoizedResults[index]
+        }
+
+        if(index + 1 == adapters.size) {
+            return 1
+        }
+
+        var sum = 0L
+        for (offset in 1..3) {
+            if(index + offset >= adapters.size) {
+                break // prevent index out of bounds
+            }
+
+            if(adapters[index + offset] - adapters[index] <= 3) {
+                sum += numberOfValidArrangements(index + offset, memoizedResults)
+            }
+        }
+
+        memoizedResults[index] = sum
+        return sum
+    }
+
 }
