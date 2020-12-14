@@ -39,4 +39,10 @@ class DockingComputerTest {
         assertEquals(165L, comp.runProgram(), "Program result not as expected" )
     }
 
+    @Test
+    internal fun testRunProgramV2() {
+        val comp = DockingComputer(fileName = "src/test/resources/day14/test_input2.txt")
+        assertEquals(208L, comp.runProgramV2(), "Program v2 results not as expected")
+    }
+
 }
