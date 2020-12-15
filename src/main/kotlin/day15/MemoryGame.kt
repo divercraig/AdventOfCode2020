@@ -1,7 +1,7 @@
 package day15
 
 class MemoryGame(startingNumbers: List<Int>){
-    val numberTurns = mutableMapOf<Int, MutableList<Int>>()
+    val numberTurns = mutableMapOf<Int, IntArray>()
     var turn = 0
     var lastNumber = -1
 
@@ -15,18 +15,21 @@ class MemoryGame(startingNumbers: List<Int>){
     private fun addNumber(number: Int) {
         lastNumber = number
         if(number in numberTurns.keys) {
-            numberTurns[number]!!.add(turn)
+            numberTurns[number]!![0] = numberTurns[number]!![1]
+            numberTurns[number]!![1] = turn
+
         } else {
-            numberTurns[number] = mutableListOf(turn)
+            numberTurns[number] = IntArray(2) { -1 }
+            numberTurns[number]?.set(1, turn)
         }
     }
 
     private fun deriveNumber(): Int {
         val appearances = numberTurns[lastNumber]!!
-        return if(appearances.size < 2) {
+        return if(appearances[0] == -1) {
             0
         } else {
-            appearances[appearances.size-1] - appearances[appearances.size-2]
+            appearances[1] - appearances[0]
         }
     }
 
