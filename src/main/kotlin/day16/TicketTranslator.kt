@@ -8,12 +8,14 @@ class TicketTranslator(fileName: String) {
     val rules = mutableMapOf<String, List<IntRange>>()
     var myTicket = mutableListOf<Int>()
     var nearbyTickets = mutableListOf<List<Int>>()
+    var validTickets = mutableListOf<List<Int>>()
 
     init {
         val reader = File(fileName).inputStream().bufferedReader()
         readRules(reader)
         readMyTicket(reader)
         readOtherTickets(reader)
+        rejectInvalidTickets()
     }
 
     private fun readRules(reader: BufferedReader) {
@@ -82,12 +84,35 @@ class TicketTranslator(fileName: String) {
         reader.close()
     }
 
-    fun fieldCanBeValid(field: Int) : Boolean {
+    private fun rejectInvalidTickets() {
+        for(ticket in nearbyTickets) {
+            var anyInvalidFields = false
+            for(field in ticket) {
+                if(!fieldCanBeValid(field)) {
+                    anyInvalidFields = true
+                }
+            }
+            if(!anyInvalidFields) {
+                validTickets.add(ticket)
+            }
+        }
+    }
+
+    private fun fieldCanBeValid(field: Int) : Boolean {
         for(rule in rules.values) {
             for(check in rule) {
                 if(check.contains(field)) {
                     return true
                 }
+            }
+        }
+        return false
+    }
+
+    private fun fieldIsValidForRule(field: Int, rule: List<IntRange>): Boolean {
+        for(check in rule) {
+            if(check.contains(field)) {
+                return true
             }
         }
         return false
@@ -103,6 +128,49 @@ class TicketTranslator(fileName: String) {
             }
         }
         return sumOfInvalidFields
+    }
+
+    fun identifyColumns(): Map<String, Int> {
+        var columnPossibleRules = mutableListOf<MutableSet<String>>()
+
+        for (i in 0 until myTicket.size) {
+            columnPossibleRules.add(i, rules.keys.toMutableSet())
+            for(ticket in validTickets) {
+                val field = ticket[i]
+                for(rule in rules) {
+                    if(!fieldIsValidForRule(field, rule.value)) {
+                        columnPossibleRules[i].remove(rule.key)
+                    }
+                }
+            }
+        }
+        var rulesReduced = true
+        while(rulesReduced){
+            rulesReduced = false
+            var rulesToRemove = mutableSetOf<String>()
+
+            for(possibleRules in columnPossibleRules) {
+                if(possibleRules.size == 1) {
+                    rulesToRemove.add(possibleRules.first())
+                }
+            }
+
+            for(ruleToRemove in rulesToRemove) {
+                for(possibleRules in columnPossibleRules) {
+                    if(possibleRules.size > 1 && possibleRules.contains(ruleToRemove)) {
+                        possibleRules.remove(ruleToRemove)
+                        rulesReduced = true
+                    }
+                }
+            }
+        }
+
+        val myMappedTicket = mutableMapOf<String, Int>()
+        myTicket.forEachIndexed { index, fieldValue ->
+            myMappedTicket.put(columnPossibleRules[index].first(), fieldValue)
+        }
+
+        return myMappedTicket
     }
 
 }
