@@ -10,4 +10,10 @@ class ConwayCubeTest {
         val cube = ConwayCube(fileName = "src/test/resources/day17/test_input.txt")
         assertEquals(112, cube.bootCube(), "Unexpected Boot results")
     }
+
+    @Test
+    internal fun testCubeOnePhase() {
+        val cube = ConwayCube(fileName = "src/test/resources/day17/test_input.txt")
+        assertEquals(11, cube.bootCube(1))
+    }
 }
