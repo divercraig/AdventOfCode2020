@@ -21,7 +21,7 @@ class MessageScanner(fileName: String) {
             } else {
                 val parts = ruleString.split(':')
                 var checkedRule = """\d+""".toRegex().replace(parts[1]) {
-                    m -> "(${m.value})"
+                    m -> "[${m.value}]"
                 }
                 checkedRule = checkedRule.replace("\"","")
                 mutableRules[parts[0].toInt()] = checkedRule
@@ -60,20 +60,20 @@ class MessageScanner(fileName: String) {
         var rule = unprocessedRules[key]!!
 
         if(rule.contains('|')) {
-            rule = "[$rule]"
+            rule = "($rule)"
         }
 
         val keys = mutableSetOf<Int>()
-        val keyRegex = """\(\d+\)""".toRegex()
+        val keyRegex = """\[\d+\]""".toRegex()
         for(result in keyRegex.findAll(rule!!)) {
-            keys.add(result.value.removePrefix("(").removeSuffix(")").toInt())
+            keys.add(result.value.removePrefix("[").removeSuffix("]").toInt())
         }
 
         for(key in keys) {
             if(!processedRules.keys.contains(key)) {
                 return
             }
-            val keyToken = "($key)"
+            val keyToken = "[$key]"
             rule = rule.replace(keyToken, processedRules[key]!!)
         }
         rule = rule.filterNot { it.isWhitespace() }
@@ -84,8 +84,6 @@ class MessageScanner(fileName: String) {
     fun matchWithRegex(): Int {
         var sum = 0
         var rule = processedRules[0]!!
-        rule = rule.replace('[','(')
-        rule = rule.replace(']',')')
         var ruleRegex = rule.toRegex()
 
         for(message in messages) {

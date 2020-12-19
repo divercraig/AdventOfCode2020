@@ -19,7 +19,6 @@ class MessageScannerTest {
         scanner.processRules()
         assertEquals(scanner.unprocessedRules.size, scanner.unprocessedRules.size, "Scanner should have a processed rule for each unprocessed rule")
         assertEquals(6, scanner.processedRules.size, "Scanner should have 6 processed rules")
-        assertEquals(8, scanner.possibleMatches.size, "Scanner should have 8 possible matches")
     }
 
     @Test
