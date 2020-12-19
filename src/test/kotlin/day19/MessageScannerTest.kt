@@ -27,4 +27,11 @@ class MessageScannerTest {
         scanner.processRules()
         assertEquals(2, scanner.matchWithRegex(), "Scanner should have 2 matching messages")
     }
+
+    @Test
+    internal fun testNewRules() {
+        val scanner = MessageScanner(fileName = "src/test/resources/day19/test_input2.txt")
+        scanner.processRules(newRules=true)
+        assertEquals(12, scanner.matchWithRegex(), "scanner should have 12 matching messages")
+    }
 }
