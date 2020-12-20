@@ -43,8 +43,20 @@ class TileMatcherTest {
     }
 
     @Test
-    internal fun testRearrange() {
+    internal fun testProductOfCornerIds() {
         val matcher = TileMatcher(fileName = "src/test/resources/day20/test_input1.txt")
-        assertEquals(20899048083289L, matcher.rearrange(), "Matcher corner product didn't meet expectations")
+        assertEquals(20899048083289L, matcher.productOfCornerIds(), "Matcher corner product didn't meet expectations")
+    }
+
+    @Test
+    internal fun testNumberOfTilesPerEdge() {
+        val matcher = TileMatcher(fileName = "src/test/resources/day20/test_input1.txt")
+        assertEquals(3, matcher.numberOfTilesPerEdge(), "Matcher not identifying the number of tiles per edge correctly")
+    }
+
+    @Test
+    internal fun testSolvePart2() {
+        val matcher = TileMatcher(fileName = "src/test/resources/day20/test_input1.txt")
+        assertEquals(273, matcher.solvePart2(), "Part 2 isn't as expected")
     }
 }

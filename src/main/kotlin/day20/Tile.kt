@@ -4,9 +4,9 @@ import util.Point2D
 
 class Tile(input: List<String>) {
     val id: Int
-    val pixels: Map<Point2D, Char>
+    var pixels: Map<Point2D, Char>
     val edgeLength: Int
-    val edges: List<String>
+    var edges: List<String>
 
     private fun defineEdges() :List<String> {
         val edges = mutableListOf<String>()
@@ -46,6 +46,52 @@ class Tile(input: List<String>) {
         pixels = pixelReader
         edgeLength = y
         edges = defineEdges()
+    }
+
+    fun rotate90() {
+        val newPixels = mutableMapOf<Point2D, Char>()
+        for(x in 0 until edgeLength) {
+            for(y in 0 until edgeLength) {
+                val originPoint = Point2D(x, y)
+                val originValue = pixels[originPoint]!!
+                val newPoint = Point2D(y, (edgeLength-1)-x)
+                newPixels[newPoint] = originValue
+            }
+        }
+        pixels = newPixels
+        edges = defineEdges()
+    }
+
+    fun flipVertical() {
+        val newPixels = mutableMapOf<Point2D, Char>()
+        for(x in 0 until edgeLength) {
+            for(y in 0 until edgeLength) {
+                val originalPoint = Point2D(x, y)
+                val originalValue = pixels[originalPoint]!!
+                val newPoint = Point2D(x, (edgeLength-1)-y)
+                newPixels[newPoint] = originalValue
+            }
+        }
+        pixels = newPixels
+        edges = defineEdges()
+    }
+
+    fun moveUntilEdgeMatches(edge: Int, matches: String) {
+        var rotations = 0
+        while(rotations < 4) {
+            rotate90()
+            rotations++
+            if(edges[edge] == matches) return
+        }
+        rotations = 0
+        flipVertical()
+        while(rotations < 4) {
+            rotate90()
+            rotations++
+            if(edges[edge] == matches) return
+        }
+        flipVertical()
+        throw Exception("COULD'T MAKE TILE MATCH")
     }
 
 
