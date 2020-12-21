@@ -42,4 +42,11 @@ class IngredientsTest {
         ingredients.identifyAllergenSources()
         assertEquals(5, ingredients.occurrencesOfNonAllergicIngredients(), "There should be 5 occurrences of non allergic ingredients")
     }
+
+    @Test
+    internal fun testCanonicalDangerousIngredientsList() {
+        var ingredients = Ingredients(fileName = "src/test/resources/day21/test_input1.txt")
+        ingredients.identifyAllergenSources()
+        assertEquals("mxmxvkd,sqjhc,fvjkl", ingredients.canonicalDangerousIngredientsList(), "Canonical list of dangerous ingredients is not as expected")
+    }
 }

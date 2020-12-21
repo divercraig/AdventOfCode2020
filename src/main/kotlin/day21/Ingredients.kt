@@ -87,4 +87,23 @@ class Ingredients(fileName: String) {
         return sum
     }
 
+    fun canonicalDangerousIngredientsList() : String {
+        var dangerousIngredients = ""
+        var listOfAllergen = mutableListOf<String>()
+        for(allergen in allergenSources.keys) {
+            listOfAllergen.add(allergen)
+        }
+
+        listOfAllergen.sort()
+
+        for(allergen in listOfAllergen) {
+            if(dangerousIngredients.isNotEmpty()) {
+                dangerousIngredients += ","
+            }
+            dangerousIngredients += allergenSources[allergen].first()
+        }
+
+        return dangerousIngredients
+    }
+
 }
