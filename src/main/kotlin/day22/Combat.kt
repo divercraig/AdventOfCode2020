@@ -1,15 +1,23 @@
 package day22
 
 import java.io.File
-import java.util.*
 import kotlin.collections.ArrayDeque
 
 @ExperimentalStdlibApi
-class Combat(fileName:String) {
-    var player1: ArrayDeque<Int>
-    var player2: ArrayDeque<Int>
+class Combat {
+    var deck1: ArrayDeque<Int>
+    var deck2: ArrayDeque<Int>
+    var player1Wins = false
+    var player2Wins = false
+    var defaultWin = false
+    var previousStates = mutableSetOf<MutableList<Int>>()
 
-    init {
+    constructor(deck1: Collection<Int>, deck2: Collection<Int>) {
+        this.deck1 = ArrayDeque(deck1)
+        this.deck2 = ArrayDeque(deck2)
+    }
+
+    constructor(fileName:String) {
         val reader = File(fileName).bufferedReader()
         val queue1 = ArrayDeque<Int>()
         val queue2 = ArrayDeque<Int>()
@@ -23,30 +31,86 @@ class Combat(fileName:String) {
                 else -> target.add(line.toInt())
             }
         }
-        player1 = queue1
-        player2 = queue2
+        deck1 = queue1
+        deck2 = queue2
     }
 
     fun play() {
-        while(player1.size > 0 && player2.size > 0) {
-            val draw1 = player1.removeFirst()
-            val draw2 = player2.removeFirst()
+        while(deck1.size > 0 && deck2.size > 0) {
+            val draw1 = deck1.removeFirst()
+            val draw2 = deck2.removeFirst()
 
             if(draw1 > draw2) {
-                player1.addLast(draw1)
-                player1.addLast(draw2)
+                deck1.addLast(draw1)
+                deck1.addLast(draw2)
             } else {
-                player2.addLast(draw2)
-                player2.addLast(draw1)
+                deck2.addLast(draw2)
+                deck2.addLast(draw1)
+            }
+        }
+        if(deck1.size > 0) {
+            player1Wins = true
+        } else {
+            player2Wins = true
+        }
+    }
+
+    fun playRecursive() {
+        var round = 0
+        while(!player1Wins && !player2Wins) {
+            round++
+            val state = deck1.toMutableList()
+
+            // Add -1 as it's a delimiter between the two decks
+            // This prevents us incorrectly defaulting a game to player 1 which can occur when
+            // the cards are in the same order but players are holding a different number
+            state.add(-1)
+
+            state.addAll(deck2.toList())
+            if (previousStates.contains(state)) {
+                player1Wins = true
+                defaultWin = true
+                return
+            }
+            previousStates.add(state)
+            val card1 = deck1.removeFirst()
+            val card2 = deck2.removeFirst()
+
+            if(deck1.size >= card1 && deck2.size >= card2) {
+                val subGame = Combat(deck1.subList(0, card1), deck2.subList(0, card2))
+                subGame.playRecursive()
+                if(subGame.player1Wins) {
+                    deck1.addLast(card1)
+                    deck1.addLast(card2)
+                } else {
+                    deck2.addLast(card2)
+                    deck2.addLast(card1)
+                }
+            } else {
+                if(card1 > card2) {
+                    deck1.addLast(card1)
+                    deck1.addLast(card2)
+                } else {
+                    deck2.addLast(card2)
+                    deck2.addLast(card1)
+                }
+            }
+
+            if(deck1.size == 0) {
+                player2Wins = true
+            }
+
+            if(deck2.size == 0) {
+                player1Wins = true
             }
         }
     }
 
     fun score() : Long {
         var score = 0L
-        var winner = player1
-        if(player1.size == 0) {
-            winner = player2
+        var winner = deck1
+        if(player2Wins) {
+            winner = deck2
         }
         winner.asReversed().forEachIndexed { index, card ->
             score += (index +1 ) * card
