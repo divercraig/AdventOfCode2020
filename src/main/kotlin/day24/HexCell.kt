@@ -3,8 +3,13 @@ package day24
 import java.util.*
 import kotlin.reflect.typeOf
 
-enum class HexDirection {
-    E, W, NE, SE, NW, SW
+enum class HexDirection(val xOffset: Int, val yOffset: Int) {
+    E(2,0),
+    W(-2,0),
+    NE(1,1),
+    SE(1,-1),
+    NW(-1,1),
+    SW(-1,-1)
 }
 
 class HexCell() {
@@ -21,17 +26,15 @@ class HexCell() {
         var posX = 0
         var posY = 0
         for(direction in steps) {
-            when(direction) {
-                HexDirection.E -> { posX += 2 }
-                HexDirection.W -> {posX -= 2}
-                HexDirection.NE -> {posX++; posY++}
-                HexDirection.SE -> {posX++; posY--}
-                HexDirection.SW -> {posX--; posY--}
-                HexDirection.NW -> {posX--; posY++}
-            }
+            posX += direction.xOffset
+            posY += direction.yOffset
         }
         this.x = posX
         this.y = posY
+    }
+
+    override fun toString(): String {
+        return "($x,$y)"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -67,6 +70,14 @@ class HexCell() {
             }
         }
         return steps
+    }
+
+    fun adjacentCells(): Set<HexCell> {
+        val adjacent = mutableSetOf<HexCell>()
+        for(direction in HexDirection.values()) {
+            adjacent.add(HexCell(x + direction.xOffset, y+direction.yOffset))
+        }
+        return adjacent
     }
 
 }
